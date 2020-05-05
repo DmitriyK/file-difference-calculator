@@ -3,7 +3,7 @@ import fs from 'fs';
 import has from 'lodash/has';
 
 const getData = (config) => {
-  const filepath = path.resolve(process.cwd(), config);
+  const filepath = path.resolve(config);
   const data = fs.readFileSync(filepath, { encoding: 'utf8' });
   const parsed = JSON.parse(data);
   return parsed;
@@ -33,7 +33,7 @@ const getDiff = (firstConfig, secondConfig) => {
   const data1 = getData(firstConfig);
   const data2 = getData(secondConfig);
   const differences = searchDiff(data1, data2).join('\n ');
-  return differences;
+  return `{\n ${differences}\n}`;
 };
 
 export default getDiff;

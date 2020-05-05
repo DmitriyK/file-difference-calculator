@@ -9,7 +9,7 @@ const program = () => {
     .arguments('<firstConfig> <secondConfig>')
     .action((firstConfig, secondConfig) => {
       const result = genDiff(firstConfig, secondConfig);
-      console.log(`{\n ${result} \n}`);
+      console.log(result);
     });
   commander.parse(process.argv);
 };
