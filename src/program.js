@@ -1,3 +1,4 @@
+// @ts-check
 import commander from 'commander';
 import genDiff from './index';
 
