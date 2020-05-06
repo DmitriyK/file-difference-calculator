@@ -10,3 +10,7 @@
 Сравнение плоских файлов (yaml)
 
 [![asciicast](https://asciinema.org/a/327167.svg)](https://asciinema.org/a/327167)
+
+Сравнение плоских файлов (ini)
+
+[![asciicast](https://asciinema.org/a/327177.svg)](https://asciinema.org/a/327177)
