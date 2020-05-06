@@ -2,15 +2,17 @@
 import path from 'path';
 import fs from 'fs';
 import has from 'lodash/has';
+import parser from './parsers';
 
-const getData = (config) => {
-  const filepath = path.resolve(config);
-  const data = fs.readFileSync(filepath, { encoding: 'utf8' });
-  const parsed = JSON.parse(data);
+const getData = (file) => {
+  const filePath = path.resolve(file);
+  const typeFile = path.extname(filePath);
+  const data = fs.readFileSync(filePath, { encoding: 'utf8' });
+  const parsed = parser(data, typeFile);
   return parsed;
 };
 
-const searchDiff = (data1, data2) => {
+const getResult = (data1, data2) => {
   const keys = Object.keys(data1).concat(Object.keys(data2));
   const uniqKeys = [...new Set(keys)];
   const buildResult = (acc, key) => {
@@ -30,10 +32,10 @@ const searchDiff = (data1, data2) => {
   return uniqKeys.reduce(buildResult, []);
 };
 
-const getDiff = (firstConfig, secondConfig) => {
-  const data1 = getData(firstConfig);
-  const data2 = getData(secondConfig);
-  const differences = searchDiff(data1, data2).join('\n ');
+const getDiff = (firstFile, secondFile) => {
+  const data1 = getData(firstFile);
+  const data2 = getData(secondFile);
+  const differences = getResult(data1, data2).join('\n ');
   return `{\n ${differences}\n}`;
 };
 
