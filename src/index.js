@@ -2,7 +2,10 @@
 import path from 'path';
 import fs from 'fs';
 import has from 'lodash/has';
+import isObject from 'lodash/isObject';
+import union from 'lodash/union';
 import parser from './parsers';
+import render from './formatter/index';
 
 const getData = (file) => {
   const filePath = path.resolve(file);
@@ -12,31 +15,35 @@ const getData = (file) => {
   return parsed;
 };
 
-const getResult = (data1, data2) => {
-  const keys = Object.keys(data1).concat(Object.keys(data2));
-  const uniqKeys = [...new Set(keys)];
-  const buildResult = (acc, key) => {
+const getDiff = (data1, data2) => {
+  const keys = union(Object.keys(data1), Object.keys(data2)).sort();
+  const buildResult = (key) => {
     const value1 = data1[key];
     const value2 = data2[key];
-    if (!has(data1, key) && has(data2, key)) {
-      return [...acc, [`+ ${key}: ${value2}`]];
+    if (isObject(value1) && isObject(value2)) {
+      return { type: 'compared', key, value: getDiff(value1, value2) };
     }
     if (has(data1, key) && !has(data2, key)) {
-      return [...acc, [`- ${key}: ${value1}`]];
+      return { type: 'removed', key, removedValue: value1 };
     }
-    if (value1 !== value2) {
-      return [...acc, [`+ ${key}: ${value2}`], [`- ${key}: ${value1}`]];
+    if (!has(data1, key) && has(data2, key)) {
+      return { type: 'added', key, value: value2 };
     }
-    return [...acc, [`  ${key}: ${value1}`]];
+    if (value1 === value2) {
+      return { type: 'unchanged', key, value: value1 };
+    }
+    return {
+      type: 'changed', key, value: value1, removedValue: value2,
+    };
   };
-  return uniqKeys.reduce(buildResult, []);
+  return keys.map(buildResult);
 };
 
-const getDiff = (firstFile, secondFile) => {
-  const data1 = getData(firstFile);
-  const data2 = getData(secondFile);
-  const differences = getResult(data1, data2).join('\n ');
-  return `{\n ${differences}\n}`;
+const genDiff = (file1, file2, format) => {
+  const data1 = getData(file1);
+  const data2 = getData(file2);
+  const differences = getDiff(data1, data2);
+  return render(differences, format);
 };
 
-export default getDiff;
+export default genDiff;
