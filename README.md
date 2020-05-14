@@ -14,3 +14,11 @@
 Сравнение плоских файлов (ini)
 
 [![asciicast](https://asciinema.org/a/327177.svg)](https://asciinema.org/a/327177)
+
+Рекурсивное сравнение
+
+[![asciicast](https://asciinema.org/a/329788.svg)](https://asciinema.org/a/329788)
+
+Плоский формат
+
+[![asciicast](https://asciinema.org/a/330232.svg)](https://asciinema.org/a/330232)

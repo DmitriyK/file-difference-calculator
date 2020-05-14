@@ -5,7 +5,7 @@ import has from 'lodash/has';
 import isObject from 'lodash/isObject';
 import union from 'lodash/union';
 import parser from './parsers';
-import render from './formatter/index';
+import render from './formatters/index';
 
 const getData = (file) => {
   const filePath = path.resolve(file);
@@ -24,7 +24,7 @@ const getDiff = (data1, data2) => {
       return { type: 'compared', key, value: getDiff(value1, value2) };
     }
     if (has(data1, key) && !has(data2, key)) {
-      return { type: 'removed', key, removedValue: value1 };
+      return { type: 'deleted', key, deletedValue: value1 };
     }
     if (!has(data1, key) && has(data2, key)) {
       return { type: 'added', key, value: value2 };
@@ -33,7 +33,7 @@ const getDiff = (data1, data2) => {
       return { type: 'unchanged', key, value: value1 };
     }
     return {
-      type: 'changed', key, value: value1, removedValue: value2,
+      type: 'changed', key, value: value1, deletedValue: value2,
     };
   };
   return keys.map(buildResult);
