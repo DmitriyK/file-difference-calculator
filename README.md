@@ -22,3 +22,7 @@
 Плоский формат
 
 [![asciicast](https://asciinema.org/a/330232.svg)](https://asciinema.org/a/330232)
+
+Вывод в json
+
+[![asciicast](https://asciinema.org/a/330392.svg)](https://asciinema.org/a/330392)

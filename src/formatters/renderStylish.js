@@ -11,10 +11,12 @@ const convert = (item, depth) => {
   return `{${wrap}${tab.repeat(depth + 6)}${key}: ${value}${wrap}${tab.repeat(depth + 2)}}`;
 };
 
+const genOperation = (key, value, depth, sign) => `${tab.repeat(depth)}${sign} ${key}: ${convert(value, depth)}`;
+
 const operation = {
-  added: (key, value, depth) => `${tab.repeat(depth)}+ ${key}: ${convert(value[0], depth)}`,
-  deleted: (key, value, depth) => `${tab.repeat(depth)}- ${key}: ${convert(value[1], depth)}`,
-  unchanged: (key, value, depth) => `${tab.repeat(depth)}  ${key}: ${convert(value[0], depth)}`,
+  added: (key, value, depth) => genOperation(key, value[0], depth, '+'),
+  deleted: (key, value, depth) => genOperation(key, value[1], depth, '-'),
+  unchanged: (key, value, depth) => genOperation(key, value[0], depth, ' '),
   changed: (key, value, depth) => `${operation.added(key, value, depth)}\n${operation.deleted(key, value, depth)}`,
 };
 

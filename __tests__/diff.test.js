@@ -1,30 +1,22 @@
-
 import fs from 'fs';
 import path from 'path';
 import genDiff from '../src/index';
 
 const typeFormat = ['json', 'yml', 'ini'];
-const styleFormat = ['stylish', 'plain'];
+const styleFormat = ['stylish', 'plain', 'json'];
 
 const getFilesPaths = (type) => (
   [path.resolve(__dirname, `__fixtures__/before.${type}`),
     path.resolve(__dirname, `__fixtures__/after.${type}`)]
 );
 
-const pathFile1 = path.resolve(__dirname, '__fixtures__/resultDefault.txt');
-const resultDefault = fs.readFileSync(pathFile1, 'utf-8');
+const getResultPath = (fileName) => path.resolve(__dirname, `__fixtures__/${fileName}.txt`);
+const readResultFile = (fileName) => fs.readFileSync(getResultPath(fileName), 'utf-8');
 
-const pathPlain = path.resolve(__dirname, '__fixtures__/resultPlain.txt');
-const resultPlain = fs.readFileSync(pathPlain, 'utf-8');
-
-test.each(typeFormat)('diff_default_%s', (type) => {
-  const [before, after] = getFilesPaths(type);
-  const diff = genDiff(before, after, styleFormat[0]);
-  expect(diff).toEqual(resultDefault);
-});
-
-test.each(typeFormat)('diff_plain_%s', (type) => {
-  const [before, after] = getFilesPaths(type);
-  const diff = genDiff(before, after, styleFormat[1]);
-  expect(diff).toEqual(resultPlain);
+styleFormat.forEach((style) => {
+  test.each(typeFormat)(`diff_${style}_%s`, (type) => {
+    const [before, after] = getFilesPaths(type);
+    const diff = genDiff(before, after, style);
+    expect(diff).toEqual(readResultFile(style));
+  });
 });

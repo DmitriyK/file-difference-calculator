@@ -1,10 +1,12 @@
 
-import renderDefault from './renderDefault';
+import renderStylish from './renderStylish';
 import renderPlain from './renderPlain';
+import renderJson from './renderJson';
 
 const formats = {
-  stylish: renderDefault,
+  stylish: renderStylish,
   plain: renderPlain,
+  json: renderJson,
 };
 
 export default (obj, type) => formats[type](obj);
