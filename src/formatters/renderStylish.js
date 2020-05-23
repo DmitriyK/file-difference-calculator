@@ -1,35 +1,34 @@
 import isObject from 'lodash/isObject';
-import isArray from 'lodash/isArray';
-import flatten from 'lodash/flatten';
+import has from 'lodash/has';
 
 const tab = ' ';
 const wrap = '\n';
 
-const convert = (item, depth) => {
-  if (!isObject(item)) return item;
-  const [key, value] = flatten(Object.entries(item));
+const stringify = (item, depth) => {
+  if (!isObject(item)) return `${item}`;
+  const [key, value] = Object.entries(item).flat(Infinity);
   return `{${wrap}${tab.repeat(depth + 6)}${key}: ${value}${wrap}${tab.repeat(depth + 2)}}`;
 };
 
-const genOperation = (key, value, depth, sign) => `${tab.repeat(depth)}${sign} ${key}: ${convert(value, depth)}`;
+const genOperation = (key, value, depth, sign) => `${tab.repeat(depth)}${sign} ${key}: ${stringify(value, depth)}`;
 
 const operation = {
-  added: (key, value, depth) => genOperation(key, value[0], depth, '+'),
-  deleted: (key, value, depth) => genOperation(key, value[1], depth, '-'),
-  unchanged: (key, value, depth) => genOperation(key, value[0], depth, ' '),
+  added: (key, value, depth) => `${genOperation(key, value[0], depth, '+')}`,
+  deleted: (key, value, depth) => `${genOperation(key, value[1], depth, '-')}`,
+  unchanged: (key, value, depth) => `${genOperation(key, value[0], depth, ' ')}`,
   changed: (key, value, depth) => `${operation.added(key, value, depth)}\n${operation.deleted(key, value, depth)}`,
 };
 
 const stylish = (obj, depth = 0) => {
-  const func = (total, elem) => {
+  const func = (elem) => {
     const {
-      type, key, value, deletedValue,
+      type, key, children, value, deletedValue,
     } = elem;
-    if (isArray(value)) {
-      return [...total, `\n${tab.repeat(depth)}  ${key}: {`, stylish(value, depth + 4), `\n${tab.repeat(depth + 2)}}`];
+    if (has(elem, 'children')) {
+      return `\n${tab.repeat(depth)}  ${key}: {${stylish(children, depth + 4).join('')}\n${tab.repeat(depth + 2)}}`;
     }
-    return [...total, `\n${operation[type](key, [value, deletedValue], depth)}`];
+    return `\n${operation[type](key, [value, deletedValue], depth)}`;
   };
-  return obj.reduce(func, []);
+  return obj.map(func);
 };
-export default (diff) => `{${flatten(stylish(diff)).join(' ')}\n}`;
+export default (diff) => `{${stylish(diff).join('')}\n}`;

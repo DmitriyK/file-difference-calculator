@@ -1,8 +1,8 @@
 [
  {
-  "type": "compared",
+  "type": "nested",
   "key": "common",
-  "value": [
+  "children": [
    {
     "type": "added",
     "key": "follow",
@@ -39,9 +39,9 @@
     }
    },
    {
-    "type": "compared",
+    "type": "nested",
     "key": "setting6",
-    "value": [
+    "children": [
      {
       "type": "unchanged",
       "key": "key",
@@ -57,9 +57,9 @@
   ]
  },
  {
-  "type": "compared",
+  "type": "nested",
   "key": "group1",
-  "value": [
+  "children": [
    {
     "type": "changed",
     "key": "baz",

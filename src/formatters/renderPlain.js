@@ -1,9 +1,8 @@
-import isArray from 'lodash/isArray';
 import has from 'lodash/has';
 import isObject from 'lodash/isObject';
-import flatten from 'lodash/flatten';
 
-const convert = (value) => {
+
+const stringify = (value) => {
   if (isObject(value)) {
     return '[complex value]';
   }
@@ -12,25 +11,25 @@ const convert = (value) => {
 };
 
 const operation = {
-  added: (key, type, value) => `Property '${key}' was ${type} with value: ${convert(value[0])}`,
+  added: (key, type, value) => `Property '${key}' was ${type} with value: ${stringify(value[0])}`,
   deleted: (key, type) => `Property '${key}' was ${type}`,
-  changed: (key, type, values) => `Property '${key}' was ${type} from ${convert(values[1])} to ${convert(values[0])}`,
+  changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values[1])} to ${stringify(values[0])}`,
 };
 
-const plain = (obj, header = '') => {
-  const func = (total, elem) => {
+const plain = (obj, path = '') => {
+  const func = (elem) => {
     const {
-      type, key, value, deletedValue,
+      type, key, children, value, deletedValue,
     } = elem;
-    if (isArray(value)) {
-      return [...total, plain(value, `${header}${key}.`)];
+    if (has(elem, 'children')) {
+      return plain(children, `${path}${key}.`);
     }
     if (has(operation, type)) {
-      return [...total, operation[type](`${header}${key}`, type, [value, deletedValue])];
+      return operation[type](`${path}${key}`, type, [value, deletedValue]);
     }
-    return total;
+    return [];
   };
-  return obj.reduce(func, []);
+  return obj.map(func);
 };
 
-export default (diff) => flatten(plain(diff)).join('\n');
+export default (diff) => plain(diff).flat(Infinity).join('\n');
