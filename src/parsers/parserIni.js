@@ -1,4 +1,5 @@
 import isObject from 'lodash/isObject';
+import ini from 'ini';
 
 const additionalProcessing = (obj) => {
   const keys = Object.keys(obj);
@@ -11,4 +12,4 @@ const additionalProcessing = (obj) => {
   };
   return keys.reduce(func, {});
 };
-export default (data) => additionalProcessing(data);
+export default (data) => additionalProcessing(ini.parse(data));

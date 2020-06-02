@@ -19,11 +19,11 @@ const getDiff = (data1, data2) => {
   const buildResult = (key) => {
     const value1 = data1[key];
     const value2 = data2[key];
-    if (value1 === value2) {
-      return { type: 'unchanged', key, value: value1 };
-    }
     if (isObject(value1) && isObject(value2)) {
       return { type: 'nested', key, children: getDiff(value1, value2) };
+    }
+    if (value1 === value2) {
+      return { type: 'unchanged', key, value: value1 };
     }
     if (has(data1, key) && !has(data2, key)) {
       return { type: 'deleted', key, deletedValue: value1 };

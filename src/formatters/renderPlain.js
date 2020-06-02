@@ -6,28 +6,21 @@ const stringify = (value) => {
   if (isObject(value)) {
     return '[complex value]';
   }
-  const quote = '\'';
-  return (typeof value === 'string') ? `${quote}${value}${quote}` : value;
-};
-
-const operation = {
-  added: (key, type, value) => `Property '${key}' was ${type} with value: ${stringify(value[0])}`,
-  deleted: (key, type) => `Property '${key}' was ${type}`,
-  changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values[1])} to ${stringify(values[0])}`,
+  return (typeof value === 'string') ? `'${value}'` : value;
 };
 
 const plain = (obj, path = '') => {
+  const operation = {
+    added: (key, type, values) => `Property '${key}' was ${type} with value: ${stringify(values[0])}`,
+    deleted: (key, type) => `Property '${key}' was ${type}`,
+    changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values[1])} to ${stringify(values[0])}`,
+    nested: (key, type, values) => plain(values[2], `${key}.`),
+  };
   const func = (elem) => {
     const {
       type, key, children, value, deletedValue,
     } = elem;
-    if (has(elem, 'children')) {
-      return plain(children, `${path}${key}.`);
-    }
-    if (has(operation, type)) {
-      return operation[type](`${path}${key}`, type, [value, deletedValue]);
-    }
-    return [];
+    return (has(operation, type)) ? operation[type](`${path}${key}`, type, [value, deletedValue, children]) : [];
   };
   return obj.map(func);
 };
