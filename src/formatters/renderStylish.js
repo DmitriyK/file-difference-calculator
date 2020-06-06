@@ -23,7 +23,9 @@ const stylish = (obj, depth = 0) => {
     const {
       type, key, children, value, addedValue, deletedValue,
     } = elem;
-    return `${wrap}${operation[type](key, { value, addedValue, deletedValue, children })}`;
+    return `${wrap}${operation[type](key, {
+      value, addedValue, deletedValue, children,
+    })}`;
   };
   return obj.map(func);
 };

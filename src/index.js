@@ -29,10 +29,10 @@ const getDiff = (data1, data2) => {
       return { type: 'nested', key, children: getDiff(value1, value2) };
     }
     if (value1 === value2) {
-      return { type: 'unchanged', key, value: value1 }
-    };
-    return { 
-      type: 'changed', key, addedValue: value1, deletedValue: value2 
+      return { type: 'unchanged', key, value: value1 };
+    }
+    return {
+      type: 'changed', key, addedValue: value1, deletedValue: value2,
     };
   };
   return keys.map(buildResult);
