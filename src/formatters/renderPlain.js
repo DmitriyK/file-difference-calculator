@@ -11,16 +11,17 @@ const stringify = (value) => {
 
 const plain = (obj, path = '') => {
   const operation = {
-    added: (key, type, values) => `Property '${key}' was ${type} with value: ${stringify(values[0])}`,
+    added: (key, type, values) => `Property '${key}' was ${type} with value: ${stringify(values.addedValue)}`,
     deleted: (key, type) => `Property '${key}' was ${type}`,
-    changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values[1])} to ${stringify(values[0])}`,
-    nested: (key, type, values) => plain(values[2], `${key}.`),
+    changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values.deletedValue)} to ${stringify(values.addedValue)}`,
+    unchanged: () => [],
+    nested: (key, type, values) => plain(values.children, `${key}.`),
   };
   const func = (elem) => {
     const {
-      type, key, children, value, deletedValue,
+      type, key, children, addedValue, deletedValue,
     } = elem;
-    return (has(operation, type)) ? operation[type](`${path}${key}`, type, [value, deletedValue, children]) : [];
+    return operation[type](`${path}${key}`, type, { addedValue, deletedValue, children });
   };
   return obj.map(func);
 };

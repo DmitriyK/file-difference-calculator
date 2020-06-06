@@ -13,17 +13,17 @@ const genOperation = (key, value, depth, sign) => `${tab.repeat(depth)}${sign} $
 
 const stylish = (obj, depth = 0) => {
   const operation = {
-    added: (key, values) => `${genOperation(key, values[0], depth, '+')}`,
-    deleted: (key, values) => `${genOperation(key, values[1], depth, '-')}`,
-    unchanged: (key, values) => `${genOperation(key, values[0], depth, ' ')}`,
-    changed: (key, values) => `${operation.added(key, values, depth)}${wrap}${operation.deleted(key, values, depth)}`,
-    nested: (key, values) => `${tab.repeat(depth)}  ${key}: {${stylish(values[2], depth + 4).join('')}${wrap}${tab.repeat(depth + 2)}}`,
+    added: (key, values) => `${genOperation(key, values.addedValue, depth, '+')}`,
+    deleted: (key, values) => `${genOperation(key, values.deletedValue, depth, '-')}`,
+    unchanged: (key, values) => `${genOperation(key, values.value, depth, ' ')}`,
+    changed: (key, values) => `${operation.added(key, values)}${wrap}${operation.deleted(key, values)}`,
+    nested: (key, values) => `${tab.repeat(depth)}  ${key}: {${stylish(values.children, depth + 4).join('')}${wrap}${tab.repeat(depth + 2)}}`,
   };
   const func = (elem) => {
     const {
-      type, key, children, value, deletedValue,
+      type, key, children, value, addedValue, deletedValue,
     } = elem;
-    return `${wrap}${operation[type](key, [value, deletedValue, children])}`;
+    return `${wrap}${operation[type](key, { value, addedValue, deletedValue, children })}`;
   };
   return obj.map(func);
 };
