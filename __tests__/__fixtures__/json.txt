@@ -6,7 +6,7 @@
    {
     "type": "added",
     "key": "follow",
-    "addedValue": false
+    "value": false
    },
    {
     "type": "unchanged",
@@ -16,7 +16,7 @@
    {
     "type": "deleted",
     "key": "setting2",
-    "deletedValue": 200
+    "value": 200
    },
    {
     "type": "changed",
@@ -29,12 +29,12 @@
    {
     "type": "added",
     "key": "setting4",
-    "addedValue": "blah blah"
+    "value": "blah blah"
    },
    {
     "type": "added",
     "key": "setting5",
-    "addedValue": {
+    "value": {
      "key5": "value5"
     }
    },
@@ -50,7 +50,7 @@
      {
       "type": "added",
       "key": "ops",
-      "addedValue": "vops"
+      "value": "vops"
      }
     ]
    }
@@ -84,14 +84,14 @@
  {
   "type": "deleted",
   "key": "group2",
-  "deletedValue": {
+  "value": {
    "abc": 12345
   }
  },
  {
   "type": "added",
   "key": "group3",
-  "addedValue": {
+  "value": {
    "fee": 100500
   }
  }
