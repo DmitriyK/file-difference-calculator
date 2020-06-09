@@ -4,13 +4,13 @@ import fs from 'fs';
 import has from 'lodash/has';
 import isObject from 'lodash/isObject';
 import union from 'lodash/union';
-import genParse from './parsers/index';
-import genRender from './formatters/index';
+import parse from './parsers/index';
+import render from './formatters/index';
 
 const getData = (filePath) => {
   const typeFile = path.extname(filePath).substr(1);
   const data = fs.readFileSync(filePath, { encoding: 'utf8' });
-  const parsed = genParse(data, typeFile);
+  const parsed = parse(data, typeFile);
   return parsed;
 };
 
@@ -19,11 +19,11 @@ const getDiff = (data1, data2) => {
   const buildResult = (key) => {
     const value1 = data1[key];
     const value2 = data2[key];
-    if (has(data1, key) && !has(data2, key)) {
-      return { type: 'deleted', key, deletedValue: value1 };
+    if (!has(data2, key)) {
+      return { type: 'deleted', key, value: value1 };
     }
-    if (!has(data1, key) && has(data2, key)) {
-      return { type: 'added', key, addedValue: value2 };
+    if (!has(data1, key)) {
+      return { type: 'added', key, value: value2 };
     }
     if (isObject(value1) && isObject(value2)) {
       return { type: 'nested', key, children: getDiff(value1, value2) };
@@ -42,7 +42,7 @@ const genDiff = (path1, path2, format) => {
   const data1 = getData(path1);
   const data2 = getData(path2);
   const differences = getDiff(data1, data2);
-  return genRender(differences, format);
+  return render(differences, format);
 };
 
 export default genDiff;

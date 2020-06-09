@@ -9,7 +9,7 @@ const stringify = (value) => {
 
 const plain = (obj, path = '') => {
   const operation = {
-    added: (key, type, values) => `Property '${key}' was ${type} with value: ${stringify(values.addedValue)}`,
+    added: (key, type, values) => `Property '${key}' was ${type} with value: ${stringify(values.value)}`,
     deleted: (key, type) => `Property '${key}' was ${type}`,
     changed: (key, type, values) => `Property '${key}' was ${type} from ${stringify(values.deletedValue)} to ${stringify(values.addedValue)}`,
     unchanged: () => [],
@@ -17,9 +17,11 @@ const plain = (obj, path = '') => {
   };
   const func = (elem) => {
     const {
-      type, key, children, addedValue, deletedValue,
+      type, key, value, children, addedValue, deletedValue,
     } = elem;
-    return operation[type](`${path}${key}`, type, { addedValue, deletedValue, children });
+    return operation[type](`${path}${key}`, type, {
+      value, addedValue, deletedValue, children,
+    });
   };
   return obj.map(func);
 };

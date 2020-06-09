@@ -13,10 +13,10 @@ const genOperation = (key, value, depth, sign) => `${tab.repeat(depth)}${sign} $
 
 const stylish = (obj, depth = 0) => {
   const operation = {
-    added: (key, values) => `${genOperation(key, values.addedValue, depth, '+')}`,
-    deleted: (key, values) => `${genOperation(key, values.deletedValue, depth, '-')}`,
+    added: (key, values) => `${genOperation(key, values.value, depth, '+')}`,
+    deleted: (key, values) => `${genOperation(key, values.value, depth, '-')}`,
     unchanged: (key, values) => `${genOperation(key, values.value, depth, ' ')}`,
-    changed: (key, values) => `${operation.added(key, values)}${wrap}${operation.deleted(key, values)}`,
+    changed: (key, values) => `${genOperation(key, values.addedValue, depth, '+')}${wrap}${genOperation(key, values.deletedValue, depth, '-')}`,
     nested: (key, values) => `${tab.repeat(depth)}  ${key}: {${stylish(values.children, depth + 4).join('')}${wrap}${tab.repeat(depth + 2)}}`,
   };
   const func = (elem) => {
