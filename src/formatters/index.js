@@ -1,7 +1,6 @@
-
-import renderStylish from './renderStylish';
-import renderPlain from './renderPlain';
-import renderJson from './renderJson';
+import renderStylish from './renderStylish.js';
+import renderPlain from './renderPlain.js';
+import renderJson from './renderJson.js';
 
 const formats = {
   stylish: renderStylish,

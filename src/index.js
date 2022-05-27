@@ -1,11 +1,11 @@
 // @ts-check
 import path from 'path';
 import fs from 'fs';
-import has from 'lodash/has';
-import isObject from 'lodash/isObject';
-import union from 'lodash/union';
-import parse from './parsers/index';
-import render from './formatters/index';
+import has from 'lodash/has.js';
+import isObject from 'lodash/isObject.js';
+import union from 'lodash/union.js';
+import parse from './parsers/index.js';
+import render from './formatters/index.js';
 
 const getData = (filePath) => {
   const typeFile = path.extname(filePath).substr(1);

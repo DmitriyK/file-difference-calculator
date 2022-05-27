@@ -1,5 +1,5 @@
 import yaml from 'js-yaml';
-import iniParser from './parserIni';
+import iniParser from './parserIni.js';
 
 const typeParsers = {
   json: JSON.parse,
