@@ -1,11 +1,15 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import genDiff from '../src/index';
 
 const typeFormat = ['json', 'yml', 'ini'];
 const styleFormat = ['stylish', 'plain', 'json'];
 
-const getPath = (fileName, type) => path.resolve(__dirname, `__fixtures__/${fileName}.${type}`);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const getPath = (fileName, type) => path.join(__dirname, '..', `__fixtures__/${fileName}.${type}`);
 
 const getFilesPaths = (type) => (
   [getPath('before', type), getPath('after', type)]

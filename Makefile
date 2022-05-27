@@ -1,9 +1,7 @@
 install: 
 		npm install
-start: 
-		npx babel-node src/bin/gendiff.js --format json __tests__/__fixtures__/before.ini __tests__/__fixtures__/after.ini
-build:
-		npm run build
+link:
+		npm link
 publish: 
 		npm publish --dry-run
 lint:
@@ -11,5 +9,5 @@ lint:
 test:
 		npm test
 test-coverage:
-		npm test -- --coverage
+		npm test -- --coverage --coverageProvider=v8
 .PHONY: test
