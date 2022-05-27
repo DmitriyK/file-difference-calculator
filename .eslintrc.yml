@@ -2,13 +2,14 @@
 
 plugins:
   - jest
-  - babel
 
 env:
   node: true
-  jest: true
+  es2021: true
 
-parser: babel-eslint
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
 
 extends:
   - 'airbnb-base'
