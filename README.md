@@ -25,7 +25,7 @@ This pet-project was created as part of the [Hexlet](https://ru.hexlet.io/progra
 ## Getting started
 
 ```sh
-git clone https://github.com/DmitriyK/file-difference-calculator.git
+git clone https://github.com/dmytro-komlyk/file-difference-calculator.git
 cd file-difference-calculator/
 make install
 make link
