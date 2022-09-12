@@ -11,18 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DmitriyK/file-difference-calculator.git"
+    "url": "git+https://github.com/dmytro-komlyk/file-difference-calculator.git"
   },
   "author": "Dmytro Komlyk <dima.komlyk@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DmitriyK/file-difference-calculator/issues"
+    "url": "https://github.com/dmytro-komlyk/file-difference-calculator/issues"
   },
   "type": "module",
   "jest": {
     "testEnvironment": "node"
   },
-  "homepage": "https://github.com/DmitriyK/file-difference-calculator#readme",
+  "homepage": "https://github.com/dmytro-komlyk/file-difference-calculator#readme",
   "engines": {
     "node": ">=16"
   },
