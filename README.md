@@ -5,8 +5,8 @@
 <div align="center">
 
 [![Node.js CI](https://github.com/DmitriyK/file-difference-calculator/actions/workflows/nodejs.yml/badge.svg)](https://github.com/DmitriyK/file-difference-calculator/actions/workflows/nodejs.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/0875cc3054ae2777fe7e/maintainability)](https://codeclimate.com/github/DmitriyK/frontend-project-lvl2/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/0875cc3054ae2777fe7e/test_coverage)](https://codeclimate.com/github/DmitriyK/frontend-project-lvl2/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5e47ed2faaa22ee40d25/maintainability)](https://codeclimate.com/github/dmytro-komlyk/file-difference-calculator/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/5e47ed2faaa22ee40d25/test_coverage)](https://codeclimate.com/github/dmytro-komlyk/file-difference-calculator/test_coverage)
 
 </div>
 
